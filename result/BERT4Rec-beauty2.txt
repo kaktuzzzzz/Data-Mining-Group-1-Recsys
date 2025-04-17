@@ -1,0 +1,78 @@
+(bert4rec2) tuhpcc@pc-18:~/tu2/bert4rec2/sasrec-bert4rec-recsys23/src$ python run.py --config-name=BERT4Rec data_path=../data/beauty2.txt
+cuda_visible_devices: 0
+data_path: ../data/beauty2.txt
+dataset:
+  max_length: 50
+  mlm_probability: 0.2
+  force_last_item_masking_prob: 0
+dataloader:
+  batch_size: 128
+  test_batch_size: 256
+  num_workers: 8
+  validation_size: 10000
+model: BERT4Rec
+model_params:
+  vocab_size: 2
+  max_position_embeddings: 200
+  hidden_size: 64
+  num_hidden_layers: 2
+  num_attention_heads: 2
+  intermediate_size: 256
+seqrec_module:
+  lr: 0.001
+  predict_top_k: 10
+  filter_seen: true
+trainer_params:
+  max_epochs: 200
+patience: 20
+sampled_metrics: false
+top_k_metrics:
+- 1
+- 10
+- 100
+
+[2025-04-17 03:48:24,897][torch.distributed.nn.jit.instantiator][INFO] - Created a temporary directory at /tmp/tmp92oun6sp
+[2025-04-17 03:48:24,897][torch.distributed.nn.jit.instantiator][INFO] - Writing /tmp/tmp92oun6sp/_remote_module_non_scriptable.py
+Trainer already configured with model summary callbacks: [<class 'pytorch_lightning.callbacks.model_summary.ModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+   | Name                                                     | Type           | Params 
+----------------------------------------------------------------------------------------------
+0  | model                                                    | BERT4Rec       | 1.6 M  
+1  | model.embed_layer                                        | Embedding      | 1.4 M  
+2  | model.transformer_model                                  | BertModel      | 117 K  
+3  | model.transformer_model.embeddings                       | BertEmbeddings | 13.2 K 
+4  | model.transformer_model.embeddings.word_embeddings       | Embedding      | 128    
+5  | model.transformer_model.embeddings.position_embeddings   | Embedding      | 12.8 K 
+6  | model.transformer_model.embeddings.token_type_embeddings | Embedding      | 128    
+7  | model.transformer_model.embeddings.LayerNorm             | LayerNorm      | 128    
+8  | model.transformer_model.embeddings.dropout               | Dropout        | 0      
+9  | model.transformer_model.encoder                          | BertEncoder    | 100.0 K
+10 | model.transformer_model.encoder.layer                    | ModuleList     | 100.0 K
+11 | model.transformer_model.pooler                           | BertPooler     | 4.2 K  
+12 | model.transformer_model.pooler.dense                     | Linear         | 4.2 K  
+13 | model.transformer_model.pooler.activation                | Tanh           | 0      
+14 | model.head                                               | Linear         | 1.4 M  
+----------------------------------------------------------------------------------------------
+1.6 M     Trainable params
+0         Non-trainable params
+1.6 M     Total params
+6.216     Total estimated model params size (MB)
+Epoch 116: 100%|█████████████████████████████████████████████████████████████████████| 260/260 [00:11<00:00, 22.33it/s, loss=5.14, v_num=6, val_ndcg=0.040, val_hit_rate=0.0696, val_mrr=0.0309]
+training_time 1345.8506104946136                                                                                                                                                                
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Predicting DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 110/110 [00:09<00:00, -12.10it/s]
+recs shape (2804000, 3)
+{'val_ndcg@1': 0.0155848787446505, 'val_hit_rate@1': 0.0155848787446505, 'val_mrr@1': 0.0155848787446505}
+{'val_ndcg@10': 0.03807553920522595, 'val_hit_rate@10': 0.0680456490727532, 'val_mrr@10': 0.028977056585829768}
+{'val_ndcg@100': 0.062386751218610786, 'val_hit_rate@100': 0.19194008559201142, 'val_mrr@100': 0.03308769526869857}
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Predicting DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 110/110 [00:09<00:00, -11.83it/s]
+recs shape (2804000, 3)
+{'test_ndcg@1': 0.01116262482168331, 'test_hit_rate@1': 0.01116262482168331, 'test_mrr@1': 0.01116262482168331}
+{'test_ndcg@10': 0.028604778015529346, 'test_hit_rate@10': 0.05224679029957204, 'test_mrr@10': 0.02145071949369382}
+{'test_ndcg@100': 0.04974793143478372, 'test_hit_rate@100': 0.16101997146932953, 'test_mrr@100': 0.02494694778753388}

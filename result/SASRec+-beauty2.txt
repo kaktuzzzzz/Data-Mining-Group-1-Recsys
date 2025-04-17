@@ -1,0 +1,90 @@
+(bert4rec2) tuhpcc@pc-18:~/tu2/bert4rec2/sasrec-bert4rec-recsys23/src$ python run.py --config-name=SASRec data_path=../data/beauty2.txt
+cuda_visible_devices: 0
+data_path: ../data/beauty2.txt
+dataset:
+  max_length: 50
+  full_negative_sampling: false
+dataloader:
+  batch_size: 128
+  test_batch_size: 256
+  num_workers: 8
+  validation_size: 10000
+model: SASRec
+model_params:
+  maxlen: 200
+  hidden_units: 64
+  num_blocks: 2
+  num_heads: 1
+  dropout_rate: 0.2
+seqrec_module:
+  lr: 0.001
+  predict_top_k: 10
+  filter_seen: true
+trainer_params:
+  max_epochs: 100
+patience: 10
+sampled_metrics: false
+top_k_metrics:
+- 1
+- 10
+- 100
+
+[2025-04-17 04:12:48,258][torch.distributed.nn.jit.instantiator][INFO] - Created a temporary directory at /tmp/tmpethp6ojb
+[2025-04-17 04:12:48,259][torch.distributed.nn.jit.instantiator][INFO] - Writing /tmp/tmpethp6ojb/_remote_module_non_scriptable.py
+Trainer already configured with model summary callbacks: [<class 'pytorch_lightning.callbacks.model_summary.ModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+   | Name                              | Type                            | Params
+---------------------------------------------------------------------------------------
+0  | model                             | SASRec                          | 1.5 M 
+1  | model.item_emb                    | Embedding                       | 1.4 M 
+2  | model.pos_emb                     | Embedding                       | 12.8 K
+3  | model.emb_dropout                 | Dropout                         | 0     
+4  | model.attention_layernorms        | ModuleList                      | 256   
+5  | model.attention_layernorms.0      | LayerNorm                       | 128   
+6  | model.attention_layernorms.1      | LayerNorm                       | 128   
+7  | model.attention_layers            | ModuleList                      | 33.3 K
+8  | model.attention_layers.0          | MultiheadAttention              | 16.6 K
+9  | model.attention_layers.0.out_proj | NonDynamicallyQuantizableLinear | 4.2 K 
+10 | model.attention_layers.1          | MultiheadAttention              | 16.6 K
+11 | model.attention_layers.1.out_proj | NonDynamicallyQuantizableLinear | 4.2 K 
+12 | model.forward_layernorms          | ModuleList                      | 256   
+13 | model.forward_layernorms.0        | LayerNorm                       | 128   
+14 | model.forward_layernorms.1        | LayerNorm                       | 128   
+15 | model.forward_layers              | ModuleList                      | 16.6 K
+16 | model.forward_layers.0            | PointWiseFeedForward            | 8.3 K 
+17 | model.forward_layers.0.conv1      | Conv1d                          | 4.2 K 
+18 | model.forward_layers.0.dropout1   | Dropout                         | 0     
+19 | model.forward_layers.0.relu       | ReLU                            | 0     
+20 | model.forward_layers.0.conv2      | Conv1d                          | 4.2 K 
+21 | model.forward_layers.0.dropout2   | Dropout                         | 0     
+22 | model.forward_layers.1            | PointWiseFeedForward            | 8.3 K 
+23 | model.forward_layers.1.conv1      | Conv1d                          | 4.2 K 
+24 | model.forward_layers.1.dropout1   | Dropout                         | 0     
+25 | model.forward_layers.1.relu       | ReLU                            | 0     
+26 | model.forward_layers.1.conv2      | Conv1d                          | 4.2 K 
+27 | model.forward_layers.1.dropout2   | Dropout                         | 0     
+28 | model.last_layernorm              | LayerNorm                       | 128   
+---------------------------------------------------------------------------------------
+1.5 M     Trainable params
+0         Non-trainable params
+1.5 M     Total params
+6.000     Total estimated model params size (MB)
+Epoch 20: 100%|█████████████████████████████████████████████████████████████████████| 260/260 [00:11<00:00, 22.11it/s, loss=5.57, v_num=7, val_ndcg=0.0571, val_hit_rate=0.0926, val_mrr=0.0462]
+training_time 251.3826117515564                                                                                                                                                                 
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Predicting DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 110/110 [00:09<00:00, -11.35it/s]
+recs shape (2804000, 3)
+{'val_ndcg@1': 0.029029957203994292, 'val_hit_rate@1': 0.029029957203994292, 'val_mrr@1': 0.029029957203994292}
+{'val_ndcg@10': 0.05880803173878679, 'val_hit_rate@10': 0.09607703281027104, 'val_mrr@10': 0.04736364434028485}
+{'val_ndcg@100': 0.0847903835638593, 'val_hit_rate@100': 0.2275320970042796, 'val_mrr@100': 0.051829216936860004}
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Predicting DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 110/110 [00:09<00:00, -11.48it/s]
+recs shape (2804000, 3)
+{'test_ndcg@1': 0.022360912981455063, 'test_hit_rate@1': 0.022360912981455063, 'test_mrr@1': 0.022360912981455063}
+{'test_ndcg@10': 0.04678875450018992, 'test_hit_rate@10': 0.07699714693295293, 'test_mrr@10': 0.03749057468921949}
+{'test_ndcg@100': 0.07034940045665534, 'test_hit_rate@100': 0.19618402282453637, 'test_mrr@100': 0.041545562980306254}
