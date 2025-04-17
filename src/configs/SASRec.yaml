@@ -19,7 +19,7 @@ model_params:
   hidden_units: 64
   num_blocks: 2
   num_heads: 1
-  dropout_rate: 0.2
+  dropout_rate: 0.5
 
 seqrec_module:
   lr: 0.001
