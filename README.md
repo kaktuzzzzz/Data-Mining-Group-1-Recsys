@@ -49,10 +49,3 @@ python run.py --config-name=SASRec data_path=../data/beauty2.txt
 python run.py --config-name=SASRec data_path=../data/beauty2.txt +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True
 # BERT4Rec
 python run.py --config-name=BERT4Rec data_path=../data/beauty2.txt
-
-
-
-
-
-
-
